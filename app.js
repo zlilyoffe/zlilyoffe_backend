@@ -1,5 +1,4 @@
 const express = require('express');
-const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Blog = require('./models/blog.js');
 
@@ -19,7 +18,7 @@ mongoose.connect(dbURI,{useUnifiedTopology:true}).then(
 
 
 // listen for requests
-app.listen(3000);
+// app.listen(3000);
 
 // register view engine
 // app.set('view engine', 'ejs');
@@ -92,7 +91,7 @@ app.get('/blogs', (req, res) => {
     .then((count) => {
         console.log( "Number of blogs:", count );
         blogsCount = count;
-        res.send(blogsCount);
+        res.send(`${blogsCount}`);
     })
     .catch((err) => {
         console.log(err);
