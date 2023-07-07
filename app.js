@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const fs = require('fs');
 const User = require('./models/viewer.js');
 const Viewer = require('./models/viewer.js');
 
@@ -13,15 +14,26 @@ app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
-// connect to mongoDB
-const dbURI = "mongodb+srv://zlilvedaniel:Yatir1411@cluster0.wwotvq1.mongodb.net/node-tuts?retryWrites=true&w=majority";
-mongoose.connect(dbURI,{useUnifiedTopology:true}).then(
+
+let dbKey = '';
+fs.readFile('dbkey.txt', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    dbKey = data.slice();
+    // connect to mongoDB
+    const dbURI = `mongodb+srv://zlilvedaniel:${dbKey}@cluster0.wwotvq1.mongodb.net/node-tuts?retryWrites=true&w=majority`;
+    mongoose.connect(dbURI,{useUnifiedTopology:true}).then(
     (result) => {
         console.log('connected to db');
         app.listen(4000);
         console.log('start listenning on port 4000');
     })
     .catch((err)=> console.log(err));
+
+  });
+
 
 
 // app.post('')
