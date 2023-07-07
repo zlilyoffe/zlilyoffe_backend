@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Blog = require('./models/blog.js');
+const User = require('./models/viewer.js');
+const Viewer = require('./models/viewer.js');
 
 // express app
 const app = express();
@@ -23,7 +24,12 @@ mongoose.connect(dbURI,{useUnifiedTopology:true}).then(
     .catch((err)=> console.log(err));
 
 
-    
+// app.post('')
+
+// console.log('host: ', req.hostname);
+//   console.log('path: ', req.path);
+//   console.log('method: ', req.method);
+//   console.log('ip:', req.ip);
 // listen for requests
 // app.listen(3000);
 
@@ -92,13 +98,25 @@ mongoose.connect(dbURI,{useUnifiedTopology:true}).then(
 
 // blog routes
 
-app.get('/blogs', (req, res) => {
-    let blogsCount = 0;
-    Blog.count()
+app.get('/viewers', (req, res) => {
+    const viewer = new Viewer({
+                ip: req.ip
+            });
+    viewer.save()
+        .then((result) => {
+                console.log('viwer saved');
+                console.log(result);
+            })
+        .catch((err) => {
+                console.log(err);
+            });
+
+    let viewersCount = 0;
+    Viewer.count()
     .then((count) => {
-        console.log( "Number of blogs:", count );
-        blogsCount = count;
-        res.send(`${blogsCount}`);
+        console.log( "Number of viewers:", count );
+        viewersCount = count;
+        res.send(`${viewersCount}`);
     })
     .catch((err) => {
         console.log(err);
