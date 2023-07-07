@@ -1,10 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Blog = require('./models/blog.js');
-
+const cors = require("cors");
 
 // express app
 const app = express();
+
+app.use(cors({ origin: [null, "https://origin2.com"] }));
 
 // connect to mongoDB
 const dbURI = "mongodb+srv://zlilvedaniel:Yatir1411@cluster0.wwotvq1.mongodb.net/node-tuts?retryWrites=true&w=majority";
