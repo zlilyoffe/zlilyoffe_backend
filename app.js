@@ -1,13 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Blog = require('./models/blog.js');
-const cors = require("cors");
 
 // express app
 const app = express();
 
-app.use(cors({ origin: [null, "https://origin2.com"] }));
-
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 // connect to mongoDB
 const dbURI = "mongodb+srv://zlilvedaniel:Yatir1411@cluster0.wwotvq1.mongodb.net/node-tuts?retryWrites=true&w=majority";
 mongoose.connect(dbURI,{useUnifiedTopology:true}).then(
@@ -19,6 +23,7 @@ mongoose.connect(dbURI,{useUnifiedTopology:true}).then(
     .catch((err)=> console.log(err));
 
 
+    
 // listen for requests
 // app.listen(3000);
 
